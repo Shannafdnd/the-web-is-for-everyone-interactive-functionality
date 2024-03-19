@@ -1,0 +1,50 @@
+<%- include('./partials/head') %>
+<title>Red Pers</title>
+</head>
+
+<%- include('./partials/header') %>
+<body>
+
+    <main>
+
+        <section class="posts">
+        <%
+            posts[0]
+            .forEach((post) => {
+                %>
+                <article class="post">
+                    <a href="/post/<%= post.slug %>" class="article-link">
+                        <img src="<%= post.yoast_head_json.og_image[0].url %>"></img>
+                        <h3><%- post.title.rendered %></h3>
+                    </a>
+                    <a class="author" href="/author/<%= post.author %>"><%= post.yoast_head_json.author %></a>
+                </article>
+                <%
+            })
+        %>
+        </section>
+        <%
+            categories
+            .forEach((category, i) => {/* De 'i' staat voor index of iteration, hiermee kunnen we de matchende array van posts vinden */ %>
+                <section class="posts">
+                    <h2><%= category.name %></h2>
+                    <%
+                        posts[i + 1] // We voegen hier 1 aan toe om de eerste array van posts over te slaan
+                        .forEach((post) => {
+                            %>
+                            <article class="post">
+                                <a href="/post/<%= post.slug %>" class="article-link">
+                                    <img src="<%= post.yoast_head_json.og_image[0].url %>"></img>
+                                    <h3><%- post.title.rendered %></h3>
+                                </a>
+                                <a class="author" href="/author/<%= post.author %>"><%= post.yoast_head_json.author %></a>
+                            </article>
+                            <%
+                        })
+                    %>
+                </section>
+            <%})
+        %>
+    </main>
+
+    <%- include('./partials/footer') %>
