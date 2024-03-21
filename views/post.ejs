@@ -1,0 +1,18 @@
+<%- include('./partials/head') %>
+<%- post.yoast_head %>
+</head>
+
+<%- include('./partials/header') %>
+<body>
+
+<h3><%- post.title.rendered %></h3>
+
+<button role="button" class="share-button" onclick=<%= `share("${post.slug}")` %>>share</button>
+<p id="shares"><%= shares %></p>
+<p><%- post.content.rendered %></p>
+
+
+<!-- <form action="" method="post"></form>
+    <label for="share"># keer geliked</label>
+    <button type="submit" id="share" ><span>Like dit artikel</span></button>
+</form> -->

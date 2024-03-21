@@ -5,11 +5,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Kode+Mono:wght@400..700&family=Pixelify+Sans:wght@400..700&display=swap');
 
 :root {
-    --main-font: Roboto;
     --nav-font: Inter;
     --titles-font: "Playfair Display";
 
-    --background-color: #f8f4f4;
+    --background-color: #f7f7f5;
     --secondary-background: #ffcccc;
 
     --icon-height: 1rem;
@@ -135,13 +134,14 @@ main {
 
 .posts {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    flex-direction: row;
     align-items: center;
     gap: 1rem;
 
     .post {
         border: var(--border);
-        max-width: 90vw;
+        max-width: 30rem;
         background-color: white;
     
         .article-link {
@@ -170,3 +170,4 @@ main {
         }
     }
 }
+

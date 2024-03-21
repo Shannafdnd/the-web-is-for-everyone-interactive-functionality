@@ -1,0 +1,15 @@
+@media only screen and (min-width: 768px) {
+    
+    .posts {
+        .post {
+            max-width: 22rem;
+        }
+    }
+}
+
+@media only screen and (min-width: 1025) {
+
+    .menu-button {
+        display: none;
+    }
+}

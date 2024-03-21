@@ -1,9 +1,9 @@
 // *** Express setup en start ***
 
-import express from 'express'
+import express, { request, response } from 'express'
 import fetchJson from './helpers/fetch-json.js'
 
-const app = express()
+const app = express();
 
 app.set('view engine', 'ejs')
 app.set('views', './views')
@@ -18,6 +18,7 @@ app.listen(app.get('port'), function () {
 
 //*** Data ***
 const apiUrl = 'https://redpers.nl/wp-json/wp/v2/'
+const directus_url = 'https://fdnd-agency.directus.app/items/redpers_shares'
 const postsUrl = apiUrl + 'posts'
 const categoriesUrl = apiUrl+ 'categories'
 const categories = [
@@ -53,13 +54,32 @@ app.get('/author/:id', function (request, response){
    })
 })
 
-// Detail route op /article/:slug
-app.get('/article/:slug', function (request, response){
+// Post page
+app.get('/post/:slug', function (request, response){
+  Promise.all([
+    fetchJson( `${apiUrl}posts?slug=${request.params.slug}`),
+    fetchJson(`${directus_url}?filter[slug][_eq]=${request.params.slug}`)
+  ]).then(([apiData,{data}]) => {
+    response.render('post', 
+    {post: apiData[0], shares: data[0]?.shares ?? 0, categories, yoast_head: apiData[0].yoast_head});
+  })
+})
 
-  fetchJson( `${apiUrl}posts?slug=${request.params.slug}`).then((apiData) => {
-     response.render('article', 
-     {post: apiData[0], categories, yoast_head: apiData[0].yoast_head});
-   })
+app.post('/post/:slug', (request, response) => {
+  fetchJson(`${directus_url}?filter[slug][_eq]=${request.params.slug}`).then(({ data }) => {
+    // Doe een PATCH op directus, stuur de id mee als die er is.
+    fetchJson(`${directus_url}/${data[0]?.id ? data[0].id : ''}`, {
+      method: data[0]?.id ? 'PATCH' : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        slug: request.params.slug,
+        shares: data.length > 0 ? data[0].shares + 1 : 1,
+      }),
+    }).then((result) => {
+      console.log(result)
+    })
+  })
+  response.redirect(301, `/article/${request.params.slug}`)
 })
 
 // catogory page
