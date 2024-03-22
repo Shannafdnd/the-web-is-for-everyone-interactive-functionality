@@ -1,6 +1,7 @@
 const nav = document.querySelector("nav");
 const menuButton = document.querySelector(".menu-button");
 const sharesCounter = document.getElementById("shares");
+const link = encodeURI(window.location.href);
 
 menuButton.addEventListener("click", () => [
     nav.classList.toggle("closed")
@@ -9,7 +10,8 @@ menuButton.addEventListener("click", () => [
 function share(slug) {
     fetch(`/post/${slug}`, {method: "post"});
     sharesCounter.innerText++;
-    window.navigator.share({url: window.top.location});
+    navigator.clipboard.writeText(link);
+    alert("Copied link");
 }
 
 // new Date().toLocaleDateString(undefined, {weekday: "short", month: "short", day: "numeric", year: "numeric"})
