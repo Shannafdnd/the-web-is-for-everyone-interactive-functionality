@@ -75,11 +75,9 @@ app.post('/post/:slug', (request, response) => {
         slug: request.params.slug,
         shares: data.length > 0 ? data[0].shares + 1 : 1,
       }),
-    }).then((result) => {
-      console.log(result)
     })
   })
-  response.redirect(301, `/article/${request.params.slug}`)
+  response.redirect(301, `/post/${request.params.slug}`)
 })
 
 // catogory page
