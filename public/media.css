@@ -1,3 +1,4 @@
+/* Tablet */
 @media only screen and (min-width: 768px) {
     
     .posts {
@@ -7,6 +8,7 @@
     }
 }
 
+/* Desktop */
 @media only screen and (min-width: 1025px) {
 
     header {
@@ -66,9 +68,6 @@
             margin-top: 12rem;
             width: 100%;
             max-width: 80rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
 
             .posts.front-page {
                 display: grid;
