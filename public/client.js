@@ -10,19 +10,21 @@ menuButton.addEventListener("click", () => {
     nav.classList.toggle("closed");
 })
 
-function share(e) { //e is event
-    e.preventDefault(); // niet refreshen
-    fetch(window.top.location, {method: "POST"});
-    sharesCounter.innerText++;
+function betterAlert(message) { // Deze functie laat een custom alert zien
+    alertContainer.classList.remove("hidden");
+    alertMessage.innerText = message;
+    setTimeout(() => alertContainer.classList.add("hidden"), 2000);
+}
 
-    if (navigator.share) {
+function share(e) { // e is event
+    e.preventDefault(); // niet refreshen
+    fetch(window.top.location, {method: "POST"}); // ipv daarvan in de achtergrond post request sturen
+    sharesCounter.innerText++; // 1 bij de share counter optellen
+
+    if (navigator.share) { // deze functie wordt niet door elke browser ondersteunt
         navigator.share({url: window.top.location});
     } else {
         navigator.clipboard.writeText(window.top.location);
-        alertContainer.classList.remove("hidden");
-        alertMessage.innerText = "URL Gekopieërd!";
-        setTimeout(() => alertContainer.classList.add("hidden"), 2000);
+        betterAlert("URL Gekopieërd!")
     }
 }
-
-// new Date().toLocaleDateString(undefined, {weekday: "short", month: "short", day: "numeric", year: "numeric"})
